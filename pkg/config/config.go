@@ -17,8 +17,21 @@ type Service struct {
 	Port int    `yaml:"port"`
 }
 
+type Endpoints struct {
+	Host string `yaml:"host"`
+	Port int    `yaml:"port"`
+	// UseAuth bool
+}
+
+type Auth struct {
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+}
+
 type Config struct {
-	Service Service `yaml:"gateway-service-config"`
+	Service   Service              `yaml:"gateway-service-config"`
+	Endpoints map[string]Endpoints `yaml:"endpoints"`
+	Auth      Auth                 `yaml:"auth"`
 }
 
 func Initialise() (*Config, error) {

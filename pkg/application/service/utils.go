@@ -4,7 +4,21 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"tempest-gateway-service/pkg/config"
+
+	"github.com/gorilla/mux"
 )
+
+var (
+	conf config.Config
+)
+
+func NewServiceRoutes(r *mux.Router, confIn *config.Config) {
+	conf = *confIn
+
+	newIngressRoutes(r)
+	newInformationRoutes(r)
+}
 
 func writeReponse(w http.ResponseWriter, r *http.Request, body interface{}) {
 
