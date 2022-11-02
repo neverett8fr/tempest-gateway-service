@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func NewUserInformation(r *mux.Router) {
+func NewIngressRoutes(r *mux.Router) {
 	r.HandleFunc("/test/{text}", testHandler).Methods("GET")
 }
 
