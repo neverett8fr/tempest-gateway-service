@@ -8,7 +8,7 @@ import (
 )
 
 func newInformationRoutes(r *mux.Router) {
-	r.HandleFunc("/routes", getRoutes).Methods("GET")
+	r.HandleFunc("/routes", getRoutes).Methods(http.MethodGet)
 }
 
 func getRoutes(w http.ResponseWriter, r *http.Request) {
@@ -16,5 +16,5 @@ func getRoutes(w http.ResponseWriter, r *http.Request) {
 	endpoints := conf.Endpoints
 	body := application.NewResponse(endpoints)
 
-	writeReponse(w, r, body)
+	writeReponse(w, body)
 }
