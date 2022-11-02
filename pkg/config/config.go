@@ -18,7 +18,7 @@ type Service struct {
 }
 
 type Config struct {
-	Service Service `yaml:"user-service-config"`
+	Service Service `yaml:"gateway-service-config"`
 }
 
 func Initialise() (*Config, error) {

@@ -1,4 +1,4 @@
-module tempest-user-service
+module tempest-gateway-service
 
 go 1.18
 
