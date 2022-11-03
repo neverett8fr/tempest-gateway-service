@@ -1,11 +1,12 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	application "tempest-gateway-service/pkg/application/entities"
-	"tempest-gateway-service/pkg/config"
+	"tempest-gateway-service/pkg/infra/auth"
 	"tempest-gateway-service/pkg/infra/entities"
 	"tempest-gateway-service/pkg/infra/external"
 
@@ -13,34 +14,42 @@ import (
 )
 
 func newIngressRoutes(r *mux.Router) {
-	r.HandleFunc(fmt.Sprintf("/{%s}/{%s:.*}", service, route), getRequest).Methods(http.MethodGet)
+	r.HandleFunc(fmt.Sprintf("/{%s}/{%s:.*}", service, route), forward).Methods(http.MethodGet)
+	r.HandleFunc(fmt.Sprintf("/{%s}/{%s:.*}", service, route), forward).Methods(http.MethodPost)
+
 }
 
-func getRequest(w http.ResponseWriter, r *http.Request) {
+func forward(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 	service := params[service]
 	route := params[route]
 
-	log.Printf("request for service %v, route %v", service, route)
-	if conf.Endpoints[service] == (config.Endpoints{}) {
-		body := application.NewResponse(nil, fmt.Errorf("endpoint/service %v not found", service))
-		w.WriteHeader(http.StatusBadRequest)
-		writeReponse(w, body)
-		return
-	}
+	var body interface{}
+	_ = json.NewDecoder(r.Body).Decode(&body)
 
-	// check permission
+	log.Printf("request received for service %v, route %v", service, route)
 
-	// call service
-	request := entities.GetRequest{
+	request := entities.Request{
 		Host:        conf.Endpoints[service].Host,
 		Port:        conf.Endpoints[service].Port,
 		Route:       route,
 		ContentType: contentTypeJSON,
+		Method:      r.Method,
+		Body:        body,
 	}
 
-	res, err := external.Get(request)
+	// check permission
+	err := auth.CheckValidRequest(conf, service, request)
+	if err != nil {
+		body := application.NewResponse(nil, err)
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		writeReponse(w, body)
+		return
+	}
+
+	// call service
+	res, err := external.NewRequest(request)
 	if err != nil {
 		body := application.NewResponse(nil, err)
 		w.WriteHeader(http.StatusBadRequest)
@@ -49,6 +58,6 @@ func getRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// respond
-	body := application.NewResponse(res, nil)
-	writeReponse(w, body)
+	responseBody := application.NewResponse(res, nil)
+	writeReponse(w, responseBody)
 }
