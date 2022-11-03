@@ -5,6 +5,10 @@ endpoints:
   user-service:
     host: ${USER_SERVICE_HOST}
     port: ${USER_SERVICE_PORT}
+    methods:
+    - GET
+    - POST
+    auth: false # this will change
 auth:
   host: ${AUTH_SERVICE_HOST}
   port: ${AUTH_SERVICE_PORT}

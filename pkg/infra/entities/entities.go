@@ -1,8 +1,10 @@
 package entities
 
-type GetRequest struct {
+type Request struct {
 	Host        string
 	Port        int
 	Route       string
 	ContentType string
+	Method      string
+	Body        interface{}
 }

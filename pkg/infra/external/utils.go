@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	application "tempest-gateway-service/pkg/application/entities"
+	"tempest-gateway-service/pkg/infra/entities"
 )
 
 func readBody(resp http.Response) (*application.Response, error) {
@@ -22,4 +23,30 @@ func readBody(resp http.Response) (*application.Response, error) {
 	}
 
 	return &applicationResponse, nil
+}
+
+func constructRoute(req entities.Request) (string, error) {
+
+	if req.Host == "" {
+		return "", fmt.Errorf("error, no host specified")
+	}
+
+	route := fmt.Sprintf("%s/%s", req.Host, req.Route)
+	if req.Port != 0 {
+		route = fmt.Sprintf("%s:%v/%s", req.Host, req.Port, req.Route)
+	}
+
+	return route, nil
+}
+
+func NewRequest(req entities.Request) (*application.Response, error) {
+
+	switch req.Method {
+	case http.MethodGet:
+		return Get(req)
+	case http.MethodPost:
+		return Get(req)
+	}
+
+	return nil, fmt.Errorf("error, method not supported yet")
 }

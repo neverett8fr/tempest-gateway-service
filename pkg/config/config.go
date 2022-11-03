@@ -18,8 +18,10 @@ type Service struct {
 }
 
 type Endpoints struct {
-	Host string `yaml:"host"`
-	Port int    `yaml:"port"`
+	Host           string   `yaml:"host"`
+	Port           int      `yaml:"port"`
+	AllowedMethods []string `yaml:"methods"`
+	Auth           bool     `yaml:"auth"`
 	// UseAuth bool
 }
 
