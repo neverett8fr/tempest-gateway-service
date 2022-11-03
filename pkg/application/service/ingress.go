@@ -34,7 +34,6 @@ func getRequest(w http.ResponseWriter, r *http.Request) {
 
 	// call service
 	request := entities.GetRequest{
-		Protocol:    protocolHTTPS,
 		Host:        conf.Endpoints[service].Host,
 		Port:        conf.Endpoints[service].Port,
 		Route:       route,
