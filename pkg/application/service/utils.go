@@ -14,7 +14,6 @@ const (
 	route   = "route"
 
 	contentTypeJSON = "application/json"
-	protocolHTTPS   = "https"
 )
 
 var (
