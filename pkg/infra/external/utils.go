@@ -45,7 +45,7 @@ func NewRequest(req entities.Request) (*application.Response, error) {
 	case http.MethodGet:
 		return Get(req)
 	case http.MethodPost:
-		return Get(req)
+		return Post(req)
 	}
 
 	return nil, fmt.Errorf("error, method not supported yet")
