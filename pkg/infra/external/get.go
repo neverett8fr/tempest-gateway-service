@@ -9,9 +9,9 @@ import (
 
 func Get(req entities.GetRequest) (*application.Response, error) {
 
-	route := fmt.Sprintf("%s://%s/%s", req.Protocol, req.Host, req.Route)
+	route := fmt.Sprintf("%s/%s", req.Host, req.Route)
 	if req.Port != 0 {
-		route = fmt.Sprintf("%s://%s:%v/%s", req.Protocol, req.Host, req.Port, req.Route)
+		route = fmt.Sprintf("%s:%v/%s", req.Host, req.Port, req.Route)
 	}
 
 	resp, err := http.Get(route)
