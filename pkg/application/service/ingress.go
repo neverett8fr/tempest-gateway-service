@@ -14,8 +14,7 @@ import (
 )
 
 func newIngressRoutes(r *mux.Router) {
-	r.HandleFunc(fmt.Sprintf("/{%s}/{%s:.*}", service, route), forward).Methods(http.MethodGet)
-	r.HandleFunc(fmt.Sprintf("/{%s}/{%s:.*}", service, route), forward).Methods(http.MethodPost)
+	r.HandleFunc(fmt.Sprintf("/{%s}/{%s:.*}", service, route), forward).Methods(http.MethodGet, http.MethodPost)
 
 }
 
