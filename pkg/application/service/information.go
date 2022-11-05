@@ -34,7 +34,7 @@ func createToken(w http.ResponseWriter, r *http.Request) {
 	request := entities.Request{
 		Host:        conf.Auth.Host,
 		Port:        conf.Auth.Port,
-		Route:       "/",
+		Route:       "/token",
 		ContentType: contentTypeJSON,
 		Method:      r.Method,
 		Body:        body,
