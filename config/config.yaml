@@ -8,7 +8,7 @@ endpoints:
     methods:
     - GET
     - POST
-    auth: false # this will change
+    auth: true
 auth:
   host: ${AUTH_SERVICE_HOST}
   port: ${AUTH_SERVICE_PORT}
