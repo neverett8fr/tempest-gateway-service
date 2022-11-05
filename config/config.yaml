@@ -17,8 +17,8 @@ endpoints:
     auth: false
     limit-routes: true
     allowed-routes: 
-    - /token
-    - /user
+    - token
+    - user
 auth:
   host: ${AUTH_SERVICE_HOST}
   port: ${AUTH_SERVICE_PORT}
