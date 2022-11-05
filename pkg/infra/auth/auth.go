@@ -12,12 +12,16 @@ import (
 // use auth to check permissions for user & resources
 
 func CheckValidRequest(conf config.Config, service string, request entities.Request) error {
+	if conf.Endpoints[service].Host == "" {
+		return fmt.Errorf("endpoint/service %v not found", service)
+	}
+
 	if !contains(conf.Endpoints[service].AllowedMethods, request.Method) {
 		return fmt.Errorf("error method %v not allowed", request.Method)
 	}
 
-	if conf.Endpoints[service].Host == "" {
-		return fmt.Errorf("endpoint/service %v not found", service)
+	if conf.Endpoints[service].LimitRoutes && !contains(conf.Endpoints[service].AllowedRoutes, request.Route) {
+		return fmt.Errorf("error route %v not allowed", request.Route)
 	}
 
 	if conf.Endpoints[service].Auth {

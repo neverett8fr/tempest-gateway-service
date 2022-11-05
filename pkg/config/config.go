@@ -21,8 +21,9 @@ type Endpoints struct {
 	Host           string   `yaml:"host"`
 	Port           int      `yaml:"port"`
 	AllowedMethods []string `yaml:"methods"`
+	AllowedRoutes  []string `yaml:"allowed-routes"`
+	LimitRoutes    bool     `yaml:"limit-routes"`
 	Auth           bool     `yaml:"auth"`
-	// UseAuth bool
 }
 
 type Auth struct {
