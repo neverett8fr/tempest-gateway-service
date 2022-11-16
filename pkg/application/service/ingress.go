@@ -24,6 +24,8 @@ func forward(w http.ResponseWriter, r *http.Request) {
 	service := params[service]
 	route := params[route]
 
+	authIn := r.Header.Get(headerAuth)
+
 	var body interface{}
 	_ = json.NewDecoder(r.Body).Decode(&body)
 
@@ -35,6 +37,7 @@ func forward(w http.ResponseWriter, r *http.Request) {
 		Route:       route,
 		ContentType: contentTypeJSON,
 		Method:      r.Method,
+		Auth:        authIn,
 		Body:        body,
 	}
 

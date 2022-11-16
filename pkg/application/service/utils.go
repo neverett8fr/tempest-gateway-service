@@ -14,6 +14,7 @@ const (
 	route   = "route"
 
 	contentTypeJSON = "application/json"
+	headerAuth      = "Authorization"
 )
 
 var (

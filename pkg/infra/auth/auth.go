@@ -3,8 +3,10 @@ package auth
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"tempest-gateway-service/pkg/config"
 	"tempest-gateway-service/pkg/infra/entities"
+	"tempest-gateway-service/pkg/infra/external"
 )
 
 // call "auth" service
@@ -26,10 +28,22 @@ func CheckValidRequest(conf config.Config, service string, request entities.Requ
 
 	if conf.Endpoints[service].Auth {
 		log.Printf("calling auth service")
-		// need to create auth service
-	}
 
-	// call service - return token to use for post requests, etc. if "basic", generate new token for first time use, if jwt, use that - and make sure it's cached on auth
+		res, err := external.NewRequest(entities.Request{
+			Host:   conf.Auth.Host,
+			Port:   conf.Auth.Port,
+			Route:  "token",
+			Method: http.MethodGet,
+			Auth:   request.Auth,
+		})
+		if err != nil {
+			return fmt.Errorf("error calling auth service, err %v", err)
+		}
+		if res.Errors != nil {
+			return fmt.Errorf("error auth service returned error, err %v", res.Errors)
+		}
+
+	}
 
 	return nil
 }

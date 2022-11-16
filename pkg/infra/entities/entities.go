@@ -6,5 +6,6 @@ type Request struct {
 	Route       string
 	ContentType string
 	Method      string
+	Auth        string
 	Body        interface{}
 }
