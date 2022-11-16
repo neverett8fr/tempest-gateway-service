@@ -14,7 +14,16 @@ func Get(req entities.Request) (*application.Response, error) {
 		return nil, fmt.Errorf("error constructing route, err %v", err)
 	}
 
-	resp, err := http.Get(route)
+	request, err := http.NewRequest(http.MethodGet, route, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error building request, err %v", err)
+	}
+
+	request.Header.Add(headerAuth, req.Auth)
+	request.Header.Add(headerAccept, req.ContentType)
+
+	client := &http.Client{}
+	resp, err := client.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("error calling service, err %v", err)
 	}

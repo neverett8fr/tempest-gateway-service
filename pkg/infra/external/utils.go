@@ -9,6 +9,11 @@ import (
 	"tempest-gateway-service/pkg/infra/entities"
 )
 
+const (
+	headerAuth   = "Authorization"
+	headerAccept = "Accept"
+)
+
 func readBody(resp http.Response) (*application.Response, error) {
 
 	body, err := ioutil.ReadAll(resp.Body)

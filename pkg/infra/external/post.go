@@ -22,7 +22,16 @@ func Post(req entities.Request) (*application.Response, error) {
 		return nil, fmt.Errorf("error encoding body, err %v", err)
 	}
 
-	resp, err := http.Post(route, req.ContentType, &body)
+	request, err := http.NewRequest(http.MethodPost, route, &body)
+	if err != nil {
+		return nil, fmt.Errorf("error building request, err %v", err)
+	}
+
+	request.Header.Add(headerAuth, req.Auth)
+	request.Header.Add(headerAccept, req.ContentType)
+
+	client := &http.Client{}
+	resp, err := client.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("error calling service, err %v", err)
 	}

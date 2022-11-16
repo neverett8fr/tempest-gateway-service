@@ -39,7 +39,7 @@ func CheckValidRequest(conf config.Config, service string, request entities.Requ
 		if err != nil {
 			return fmt.Errorf("error calling auth service, err %v", err)
 		}
-		if res.Errors != nil {
+		if res.Data != "token is valid" {
 			return fmt.Errorf("error auth service returned error, err %v", res.Errors)
 		}
 
