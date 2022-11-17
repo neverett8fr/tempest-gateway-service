@@ -9,6 +9,13 @@ endpoints:
     - GET
     - POST
     auth: true
+  data-service:
+    host: ${DATA_SERVICE_HOST}
+    port: ${DATA_SERVICE_PORT}
+    methods:
+    - GET
+    - POST
+    auth: true
   administration-service:
     host: ${AUTH_SERVICE_HOST}
     port: ${AUTH_SERVICE_PORT}
