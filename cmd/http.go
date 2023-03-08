@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"tempest-gateway-service/pkg/config"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/rs/cors"
 )
 
 func StartServer(conf *config.Service, router *mux.Router) error {
@@ -18,15 +18,13 @@ func StartServer(conf *config.Service, router *mux.Router) error {
 	// 	ReadTimeout:  15 * time.Second,
 	// }
 	// log.Printf("Server started on port: %v", conf.Port)
-
-	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
-		AllowedMethods: []string{"*"},
-	})
+  
+	methodsAllowed := handlers.AllowedMethods([]string{"*"})
+	originsAllowed := handlers.AllowedOrigins([]string{"*"})
 
 	log.Fatal(http.ListenAndServe(
 		fmt.Sprintf("%v:%v", conf.Host, conf.Port),
-		c.Handler(router),
+		handlers.CORS(methodsAllowed, originsAllowed)(router),
 	))
 	log.Printf("Server started on port: %v", conf.Port)
 
