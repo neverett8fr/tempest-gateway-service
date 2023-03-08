@@ -20,8 +20,8 @@ func StartServer(conf *config.Service, router *mux.Router) error {
 	// log.Printf("Server started on port: %v", conf.Port)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowCredentials: true,
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"*"},
 	})
 
 	log.Fatal(http.ListenAndServe(
