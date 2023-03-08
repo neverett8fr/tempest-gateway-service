@@ -24,7 +24,6 @@ func StartServer(conf *config.Service, router *mux.Router) error {
 	// 	ReadTimeout:  15 * time.Second,
 	// }
 	// log.Printf("Server started on port: %v", conf.Port)
-
 	handler := cors.Default().Handler(router)
 
 	srv := &http.Server{
