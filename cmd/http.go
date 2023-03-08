@@ -18,13 +18,18 @@ func StartServer(conf *config.Service, router *mux.Router) error {
 	// 	ReadTimeout:  15 * time.Second,
 	// }
 	// log.Printf("Server started on port: %v", conf.Port)
-  
+
 	methodsAllowed := handlers.AllowedMethods([]string{"*"})
 	originsAllowed := handlers.AllowedOrigins([]string{"*"})
+	headersAllowed := handlers.AllowedHeaders([]string{"*"})
 
 	log.Fatal(http.ListenAndServe(
 		fmt.Sprintf("%v:%v", conf.Host, conf.Port),
-		handlers.CORS(methodsAllowed, originsAllowed)(router),
+		handlers.CORS(
+			methodsAllowed,
+			originsAllowed,
+			headersAllowed,
+		)(router),
 	))
 	log.Printf("Server started on port: %v", conf.Port)
 
