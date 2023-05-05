@@ -34,7 +34,11 @@ func Post(req entities.Request) (*application.Response, error) {
 	}
 
 	request.Header.Add(headerAuth, req.Auth)
-	request.Header.Add(headerAccept, req.ContentType)
+	request.Header.Add(headerAccept, req.Accept)
+	request.Header.Add(headerContentType, req.ContentType)
+	request.Header.Add(headerTransferEncoding, req.Transfer)
+
+	log.Printf("message: %v", request)
 
 	client := &http.Client{}
 	resp, err := client.Do(request)

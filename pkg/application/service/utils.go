@@ -13,8 +13,12 @@ const (
 	service = "service"
 	route   = "route"
 
-	contentTypeJSON = "application/json"
-	headerAuth      = "Authorization"
+	headerAuth        = "Authorization"
+	headerContentType = "Content-Type"
+
+	// contentTypeJSON   = "application/json"
+	// contentTypeStream = "application/octet-stream"
+	// transferChunked   = "chunked"
 )
 
 var (
