@@ -20,7 +20,9 @@ func Get(req entities.Request) (*application.Response, error) {
 	}
 
 	request.Header.Add(headerAuth, req.Auth)
-	request.Header.Add(headerAccept, req.ContentType)
+	request.Header.Add(headerAccept, req.Accept)
+	request.Header.Add(headerContentType, req.ContentType)
+	request.Header.Add(headerTransferEncoding, req.Transfer)
 
 	client := &http.Client{}
 	resp, err := client.Do(request)
