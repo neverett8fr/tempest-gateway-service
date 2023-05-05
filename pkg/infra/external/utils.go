@@ -10,8 +10,10 @@ import (
 )
 
 const (
-	headerAuth   = "Authorization"
-	headerAccept = "Accept"
+	headerAuth             = "Authorization"
+	headerAccept           = "Accept"
+	headerContentType      = "Content-Type"
+	headerTransferEncoding = "Transfer-Encoding"
 )
 
 func readBody(resp http.Response) (*application.Response, error) {
