@@ -15,6 +15,7 @@ const (
 
 	headerAuth        = "Authorization"
 	headerContentType = "Content-Type"
+	headerAccept      = "Accept"
 
 	// contentTypeJSON   = "application/json"
 	// contentTypeStream = "application/octet-stream"

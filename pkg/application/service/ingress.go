@@ -26,6 +26,7 @@ func forward(w http.ResponseWriter, r *http.Request) {
 
 	authIn := r.Header.Get(headerAuth)
 	contentType := r.Header.Get(headerContentType)
+	acceptIn := r.Header.Get(headerAccept)
 
 	var body interface{}
 	_ = json.NewDecoder(r.Body).Decode(&body)
@@ -37,6 +38,7 @@ func forward(w http.ResponseWriter, r *http.Request) {
 		Port:        conf.Endpoints[service].Port,
 		Route:       route,
 		ContentType: contentType,
+		Accept:      acceptIn,
 		Method:      r.Method,
 		Auth:        authIn,
 		Body:        body,
