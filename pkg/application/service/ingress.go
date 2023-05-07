@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	application "tempest-gateway-service/pkg/application/entities"
@@ -28,8 +29,22 @@ func forward(w http.ResponseWriter, r *http.Request) {
 	contentType := r.Header.Get(headerContentType)
 	acceptIn := r.Header.Get(headerAccept)
 
+	// make this a function to handle different formats in future, no if else stuff
 	var body interface{}
-	_ = json.NewDecoder(r.Body).Decode(&body)
+	if contentType == contentTypeJSON {
+		err := json.NewDecoder(r.Body).Decode(&body)
+		if err != nil {
+			log.Printf("err %v", err)
+		}
+	} else {
+		bodyByte, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Printf("err %v", err)
+		}
+		body = bodyByte
+	}
+
+	log.Printf("the body is %v", body)
 
 	log.Printf("request received for service %v, route %v", service, route)
 
@@ -43,6 +58,10 @@ func forward(w http.ResponseWriter, r *http.Request) {
 		Auth:        authIn,
 		Body:        body,
 	}
+
+	log.Printf("requestTy: %v", request.ContentType)
+	log.Printf("requestAc: %v", request.Accept)
+	log.Printf("requestBo: %v", request.Body)
 
 	// check permission
 	err := auth.CheckValidRequest(conf, service, request)
