@@ -17,7 +17,7 @@ const (
 	headerContentType = "Content-Type"
 	headerAccept      = "Accept"
 
-	// contentTypeJSON   = "application/json"
+	contentTypeJSON = "application/json"
 	// contentTypeStream = "application/octet-stream"
 	// transferChunked   = "chunked"
 )
