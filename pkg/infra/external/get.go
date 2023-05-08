@@ -2,12 +2,12 @@ package external
 
 import (
 	"fmt"
+	"log"
 	"net/http"
-	application "tempest-gateway-service/pkg/application/entities"
 	"tempest-gateway-service/pkg/infra/entities"
 )
 
-func Get(req entities.Request) (*application.Response, error) {
+func Get(req entities.Request) (interface{}, error) {
 
 	route, err := constructRoute(req)
 	if err != nil {
@@ -30,5 +30,9 @@ func Get(req entities.Request) (*application.Response, error) {
 		return nil, fmt.Errorf("error calling service, err %v", err)
 	}
 
+	log.Printf("resp %v", resp)
+	if req.Accept == contentTypeJSON {
+		return readBodyToJson(*resp)
+	}
 	return readBody(*resp)
 }

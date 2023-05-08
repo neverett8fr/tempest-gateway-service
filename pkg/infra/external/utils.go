@@ -14,9 +14,11 @@ const (
 	headerAccept           = "Accept"
 	headerContentType      = "Content-Type"
 	headerTransferEncoding = "Transfer-Encoding"
+
+	contentTypeJSON = "application/json"
 )
 
-func readBody(resp http.Response) (*application.Response, error) {
+func readBodyToJson(resp http.Response) (*application.Response, error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -30,6 +32,16 @@ func readBody(resp http.Response) (*application.Response, error) {
 	}
 
 	return &applicationResponse, nil
+}
+
+func readBody(resp http.Response) (interface{}, error) {
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading body, err %v", err)
+	}
+
+	return body, nil
 }
 
 func constructRoute(req entities.Request) (string, error) {
@@ -46,7 +58,7 @@ func constructRoute(req entities.Request) (string, error) {
 	return route, nil
 }
 
-func NewRequest(req entities.Request) (*application.Response, error) {
+func NewRequest(req entities.Request) (interface{}, error) {
 
 	switch req.Method {
 	case http.MethodGet:

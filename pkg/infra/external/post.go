@@ -48,5 +48,5 @@ func Post(req entities.Request) (*application.Response, error) {
 	}
 
 	log.Println("reading post response")
-	return readBody(*resp)
+	return readBodyToJson(*resp)
 }

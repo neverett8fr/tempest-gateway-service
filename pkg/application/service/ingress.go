@@ -44,7 +44,7 @@ func forward(w http.ResponseWriter, r *http.Request) {
 		body = bodyByte
 	}
 
-	log.Printf("the body is %v", body)
+	// log.Printf("the body is %v", body)
 
 	log.Printf("request received for service %v, route %v", service, route)
 
@@ -59,9 +59,9 @@ func forward(w http.ResponseWriter, r *http.Request) {
 		Body:        body,
 	}
 
-	log.Printf("requestTy: %v", request.ContentType)
-	log.Printf("requestAc: %v", request.Accept)
-	log.Printf("requestBo: %v", request.Body)
+	// log.Printf("requestTy: %v", request.ContentType)
+	// log.Printf("requestAc: %v", request.Accept)
+	// log.Printf("requestBo: %v", request.Body)
 
 	// check permission
 	err := auth.CheckValidRequest(conf, service, request)
